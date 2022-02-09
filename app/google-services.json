@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "337913719164",
+    "firebase_url": "https://kelajak-book-default-rtdb.firebaseio.com",
+    "project_id": "kelajak-book",
+    "storage_bucket": "kelajak-book.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337913719164:android:a8fd7f99244e193a659cf9",
+        "android_client_info": {
+          "package_name": "com.x.a_technologies.books_controller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337913719164-2l3uscl0devhtrv7ess7u9pmp0oj7d27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVU8mmbFa1eZCAg5uJiNeA_4pdqIFTuqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337913719164-2l3uscl0devhtrv7ess7u9pmp0oj7d27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337913719164:android:e1fec904527b44ad659cf9",
+        "android_client_info": {
+          "package_name": "com.x.a_technologies.kelajak_book"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337913719164-000u33umnkqf7grk6jt1ms73rif5v51c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.x.a_technologies.kelajak_book",
+            "certificate_hash": "94b82c8f9cc76538e5e7472715e94742ae20c77f"
+          }
+        },
+        {
+          "client_id": "337913719164-2l3uscl0devhtrv7ess7u9pmp0oj7d27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVU8mmbFa1eZCAg5uJiNeA_4pdqIFTuqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337913719164-2l3uscl0devhtrv7ess7u9pmp0oj7d27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
