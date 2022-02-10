@@ -1,25 +1,23 @@
 package com.x.a_technologies.kelajak_book.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.orhanobut.hawk.Hawk
 import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.adapters.*
 import com.x.a_technologies.kelajak_book.databinding.FragmentHomeBinding
 import com.x.a_technologies.kelajak_book.datas.DatabaseRef
 import com.x.a_technologies.kelajak_book.models.Book
-import kotlin.collections.ArrayList
 
-class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
+class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCategoriesCallBack {
 
     lateinit var binding: FragmentHomeBinding
     lateinit var categoriesAdapter: CategoriesAdapter
@@ -62,6 +60,12 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
             loadAllBooks()
         }
 
+        binding.showAllBooks.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_allBooksFragment, bundleOf(
+                "categoryName" to categoriesList[categoriesAdapter.selectedItemPosition]
+            ))
+        }
+
     }
 
     private fun check() {
@@ -70,7 +74,7 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
 
             categoriesAdapter = CategoriesAdapter(requireActivity(), categoriesList, this)
             categoriesAdapter.selectedItemPosition = categoryPosition
-            booksByCategoriesAdapter = BooksByCategoriesAdapter(booksList)
+            booksByCategoriesAdapter = BooksByCategoriesAdapter(booksList, this)
             newBooksAdapter = NewBooksAdapter(newBooksList, this)
             initRecycler()
 
@@ -85,6 +89,16 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
             }
         } else {
             initRecycler()
+        }
+
+        binding.showAllBooks.visibility = getVisibility()
+    }
+
+    fun getVisibility(): Int {
+        return if(booksList.size <= 20){
+            View.GONE
+        }else{
+            View.VISIBLE
         }
     }
 
@@ -102,6 +116,8 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
 
                 newBooksAdapter.notifyDataSetChanged()
                 binding.swipeRefresh.isRefreshing = false
+
+                binding.shimmerNewBooks.stopShimmer()
                 binding.shimmerNewBooks.visibility = View.GONE
                 binding.newBooksRv.visibility = View.VISIBLE
             }
@@ -126,6 +142,8 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
                 categoriesAdapter.notifyDataSetChanged()
                 binding.categoriesRv.scrollToPosition(0)
                 binding.swipeRefresh.isRefreshing = false
+
+                binding.shimmerCategories.stopShimmer()
                 binding.shimmerCategories.visibility = View.GONE
                 binding.categoriesRv.visibility = View.VISIBLE
             }
@@ -154,8 +172,11 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
 
                 booksByCategoriesAdapter.notifyDataSetChanged()
                 binding.swipeRefresh.isRefreshing = false
+                binding.shimmerBooksByCategories.stopShimmer()
                 binding.shimmerBooksByCategories.visibility = View.GONE
                 binding.booksByCategoriesRv.visibility = View.VISIBLE
+
+                binding.showAllBooks.visibility = getVisibility()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -177,6 +198,8 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
 
                 booksByCategoriesAdapter.notifyDataSetChanged()
                 binding.swipeRefresh.isRefreshing = false
+
+                binding.showAllBooks.visibility = getVisibility()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -190,6 +213,16 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
         binding.categoriesRv.scrollToPosition(categoriesAdapter.selectedItemPosition)
         binding.booksByCategoriesRv.adapter = booksByCategoriesAdapter
         binding.newBooksRv.adapter = newBooksAdapter
+    }
+
+    private fun loading() {
+        binding.newBooksRv.visibility = View.GONE
+        binding.categoriesRv.visibility = View.GONE
+        binding.booksByCategoriesRv.visibility = View.GONE
+
+        binding.shimmerNewBooks.visibility = View.VISIBLE
+        binding.shimmerCategories.visibility = View.VISIBLE
+        binding.shimmerBooksByCategories.visibility = View.VISIBLE
     }
 
     override fun categoriesItemClickListener(position: Int) {
@@ -210,14 +243,17 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack {
         )
     }
 
-    fun loading() {
-        binding.newBooksRv.visibility = View.GONE
-        binding.categoriesRv.visibility = View.GONE
-        binding.booksByCategoriesRv.visibility = View.GONE
+    override fun booksByCategoriesItemClickListener(position: Int) {
+        findNavController().navigate(
+            R.id.action_homeFragment_to_bookDetailsFragment, bundleOf(
+                "currentBook" to booksList[position]
+            )
+        )
+    }
 
-        binding.shimmerNewBooks.visibility = View.VISIBLE
-        binding.shimmerCategories.visibility = View.VISIBLE
-        binding.shimmerBooksByCategories.visibility = View.VISIBLE
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("destroyList", "destroyedHomeFragment")
     }
 
 }

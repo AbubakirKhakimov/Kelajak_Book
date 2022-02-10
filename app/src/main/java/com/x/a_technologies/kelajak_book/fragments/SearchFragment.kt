@@ -1,6 +1,7 @@
 package com.x.a_technologies.kelajak_book.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,10 +24,10 @@ class SearchFragment : Fragment() {
     lateinit var topBookSearchAdapter: TopBookSearchAdapter
     var isNew = true
 
-    var topBooksList:ArrayList<Book> = ArrayList()
-
     companion object{
+        var dataIsEmpty = true
         var allBooksList = ArrayList<Book>()
+        var topBooksList:ArrayList<Book> = ArrayList()
     }
 
     override fun onCreateView(
@@ -59,8 +60,30 @@ class SearchFragment : Fragment() {
 
     }
 
+    private fun check(){
+        if (isNew){
+            isNew = false
+
+            searchResultAdapter = SearchResultsAdapter(allBooksList)
+            topBookSearchAdapter = TopBookSearchAdapter(topBooksList)
+            initRecycler()
+
+            if(dataIsEmpty) {
+                dataIsEmpty = false
+                loadTopBookSearch()
+            }
+        }else{
+            initRecycler()
+        }
+    }
+
+    private fun initRecycler(){
+        binding.searchResultsRv.adapter = searchResultAdapter
+        binding.toBookSearchRv.adapter = topBookSearchAdapter
+    }
+
     private fun loadTopBookSearch(){
-        binding.progressBar.visibility = View.VISIBLE
+        isLoading(true)
 
         val topSearchQuery = DatabaseRef.booksRef.orderByChild("searchedCount").limitToFirst(16)
         topSearchQuery.addListenerForSingleValueEvent(object :ValueEventListener{
@@ -72,7 +95,7 @@ class SearchFragment : Fragment() {
                 }
 
                 topBookSearchAdapter.notifyDataSetChanged()
-                binding.progressBar.visibility = View.GONE
+                isLoading(false)
             }
             override fun onCancelled(error: DatabaseError) {
 
@@ -80,23 +103,22 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private fun check(){
-        if (isNew){
-            isNew = false
-
-            searchResultAdapter = SearchResultsAdapter(allBooksList)
-            topBookSearchAdapter = TopBookSearchAdapter(topBooksList)
-            initRecycler()
-
-            loadTopBookSearch()
+    private fun isLoading(bool:Boolean){
+        if (bool){
+            binding.shimmerSearch.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
+            binding.toBookSearchRv.visibility = View.GONE
         }else{
-            initRecycler()
+            binding.progressBar.visibility = View.GONE
+            binding.shimmerSearch.stopShimmer()
+            binding.shimmerSearch.visibility = View.GONE
+            binding.toBookSearchRv.visibility = View.VISIBLE
         }
     }
 
-    private fun initRecycler(){
-        binding.searchResultsRv.adapter = searchResultAdapter
-        binding.toBookSearchRv.adapter = topBookSearchAdapter
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("destroyList", "destroyedSearchFragment")
     }
 
 }

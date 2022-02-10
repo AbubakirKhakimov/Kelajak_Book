@@ -40,6 +40,7 @@
                 android:orientation="vertical">
 
                 <EditText
+                    android:id="@+id/searchBook_edt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -197,6 +198,16 @@
                         tools:listitem="@layout/books_by_categories_item_layout" />
 
                 </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/showAllBooks"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:visibility="gone"
+                    android:background="@drawable/all_books_button_image_backgraund"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                    android:layout_margin="16dp"
+                    app:tint="@color/main_color" />
 
             </LinearLayout>
 

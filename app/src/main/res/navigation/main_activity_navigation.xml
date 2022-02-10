@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_getUserInfoFragment"
             app:destination="@id/getUserInfoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_allBooksFragment"
+            app:destination="@id/allBooksFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -138,4 +141,13 @@
         android:name="com.x.a_technologies.kelajak_book.fragments.AllReviewsFragment"
         android:label="fragment_all_reviews"
         tools:layout="@layout/fragment_all_reviews" />
+    <fragment
+        android:id="@+id/allBooksFragment"
+        android:name="com.x.a_technologies.kelajak_book.fragments.AllBooksFragment"
+        android:label="fragment_all_books"
+        tools:layout="@layout/fragment_all_books" >
+        <action
+            android:id="@+id/action_allBooksFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
 </navigation>

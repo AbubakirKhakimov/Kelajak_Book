@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUiSaveStateControl
 import androidx.navigation.ui.setupWithNavController
 import com.orhanobut.hawk.Hawk
 import com.x.a_technologies.kelajak_book.R
@@ -30,7 +32,8 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == R.id.bookmarkFragment
                 || destination.id == R.id.profileFragment
                 || destination.id == R.id.bookDetailsFragment
-                || destination.id == R.id.allReviewsFragment){
+                || destination.id == R.id.allReviewsFragment
+                || destination.id == R.id.allBooksFragment){
                 binding.bottomNavigation.visibility = View.VISIBLE
             }else{
                 binding.bottomNavigation.visibility = View.GONE
