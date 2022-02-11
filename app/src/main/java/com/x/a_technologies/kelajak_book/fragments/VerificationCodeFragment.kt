@@ -78,7 +78,7 @@ class VerificationCodeFragment : Fragment() {
                         UserInfo.currentUser = snapshot.getValue(User::class.java)
 
                         if (AuthorizationNumberFragment.fromInfoFragment){
-                            findNavController().navigate(R.id.action_verificationCodeFragment_to_homeFragment)
+                            findNavController().navigate(R.id.action_verificationCodeFragment_to_tabsFragment)
                         }else {
                             findNavController().popBackStack(R.id.authorizationNumberFragment, true)
                         }

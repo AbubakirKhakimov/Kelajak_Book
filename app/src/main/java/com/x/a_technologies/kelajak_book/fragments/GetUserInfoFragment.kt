@@ -50,7 +50,7 @@ class GetUserInfoFragment : Fragment() {
                         UserInfo.currentUser = user
 
                         if (AuthorizationNumberFragment.fromInfoFragment){
-                            findNavController().navigate(R.id.action_getUserInfoFragment_to_homeFragment)
+                            findNavController().navigate(R.id.action_getUserInfoFragment_to_tabsFragment)
                         }else{
                             findNavController().popBackStack(R.id.authorizationNumberFragment, true)
                         }

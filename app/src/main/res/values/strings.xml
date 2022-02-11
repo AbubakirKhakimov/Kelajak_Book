@@ -4,4 +4,6 @@
     <string name="reviews_of">Reviews of \" Stiv Jobs \"</string>
     <string name="all_books_of_kelajak_book">All books of\n\" Kelajak book \"</string>
     <string name="all_books_in_the_category_roman">\" Roman \"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

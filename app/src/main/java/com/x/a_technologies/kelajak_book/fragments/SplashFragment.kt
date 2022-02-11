@@ -42,7 +42,7 @@ class SplashFragment : Fragment() {
                 if (isFirstRun()){
                     findNavController().navigate(R.id.action_splashFragment_to_welcomeFragment)
                 }else{
-                    findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+                    findNavController().navigate(R.id.action_splashFragment_to_tabsFragment)
                 }
             }, 3000)
         }else{
@@ -60,7 +60,7 @@ class SplashFragment : Fragment() {
                     }else{
                         UserInfo.currentUser = snapshot.getValue(User::class.java)
 
-                        findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+                        findNavController().navigate(R.id.action_splashFragment_to_tabsFragment)
                     }
                 }
 

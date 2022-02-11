@@ -251,9 +251,4 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
         )
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("destroyList", "destroyedHomeFragment")
-    }
-
 }

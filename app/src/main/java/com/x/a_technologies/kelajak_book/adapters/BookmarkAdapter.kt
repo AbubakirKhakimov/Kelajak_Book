@@ -3,40 +3,53 @@ package com.x.a_technologies.kelajak_book.adapters
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import androidx.core.view.marginBottom
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.x.a_technologies.kelajak_book.databinding.BookSearchItemLayoutBinding
+import com.orhanobut.hawk.Hawk
+import com.x.a_technologies.kelajak_book.databinding.BookmarkItemLayoutBinding
+import com.x.a_technologies.kelajak_book.databinding.BooksByCategoriesItemLayoutBinding
 import com.x.a_technologies.kelajak_book.models.Book
 
-interface TopBookSearchCallBack{
-    fun topBookSearchItemClickListener(position: Int)
+interface BookmarkCallBack{
+    fun bookmarkItemClickListener(position: Int)
 }
 
-class TopBookSearchAdapter(val searchBooksList:ArrayList<Book>, val topBookSearchCallBack: TopBookSearchCallBack)
-    : RecyclerView.Adapter<TopBookSearchAdapter.ItemHolder>() {
-    inner class ItemHolder(val binding: BookSearchItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
+class BookmarkAdapter(val booksList:ArrayList<Book>, val bookmarkCallBack: BookmarkCallBack)
+    : RecyclerView.Adapter<BookmarkAdapter.ItemHolder>() {
+    inner class ItemHolder(val binding: BookmarkItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        return ItemHolder(BookSearchItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+         return ItemHolder(BookmarkItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        val item = searchBooksList[position]
+        val item = booksList[position]
 
         holder.binding.bookName.text = item.name
         holder.binding.bookAuthorName.text = item.author
+        holder.binding.bookRentPrice.text = item.rentPrice
+        holder.binding.bookSellingPrice.text = item.sellingPrice
         Glide.with(holder.binding.root).load(item.imageUrl).into(holder.binding.bookImage)
         holder.binding.isAvailable.text = getAvailableText(item.count)
         holder.binding.isAvailable.setBackgroundColor(getAvailableColor(item.count))
 
         holder.binding.itemLayoutRoot.setOnClickListener {
-            topBookSearchCallBack.topBookSearchItemClickListener(position)
+            bookmarkCallBack.bookmarkItemClickListener(position)
+        }
+
+        holder.binding.deleteBook.setOnClickListener {
+            booksList.removeAt(position)
+            notifyDataSetChanged()
+            Hawk.put("bookmarkList", booksList)
         }
 
     }
 
     override fun getItemCount(): Int {
-        return searchBooksList.size
+        return booksList.size
     }
 
     private fun getAvailableText(count: Int):String{
@@ -61,4 +74,5 @@ class TopBookSearchAdapter(val searchBooksList:ArrayList<Book>, val topBookSearc
             else -> Color.parseColor("#4CAF50")
         }
     }
+
 }

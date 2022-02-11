@@ -23,23 +23,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navigationController = findNavController(R.id.fragmentContainerView)
-        binding.bottomNavigation.setupWithNavController(navigationController)
-
-        findNavController(R.id.fragmentContainerView).addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id == R.id.homeFragment
-                || destination.id == R.id.searchFragment
-                || destination.id == R.id.bookmarkFragment
-                || destination.id == R.id.profileFragment
-                || destination.id == R.id.bookDetailsFragment
-                || destination.id == R.id.allReviewsFragment
-                || destination.id == R.id.allBooksFragment){
-                binding.bottomNavigation.visibility = View.VISIBLE
-            }else{
-                binding.bottomNavigation.visibility = View.GONE
-            }
-        }
-
     }
 
     override fun attachBaseContext(newBase: Context?) {

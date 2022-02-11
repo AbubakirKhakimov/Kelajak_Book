@@ -10,7 +10,12 @@ import com.bumptech.glide.Glide
 import com.x.a_technologies.kelajak_book.databinding.BookSearchItemLayoutBinding
 import com.x.a_technologies.kelajak_book.models.Book
 
-class SearchResultsAdapter(val allBooksList:ArrayList<Book>): RecyclerView.Adapter<SearchResultsAdapter.ItemHolder>(), Filterable {
+interface SearchResultsCallBack{
+    fun searchResultsItemClickListener(item:Book)
+}
+
+class SearchResultsAdapter(val allBooksList:ArrayList<Book>, val searchResultsCallBack: SearchResultsCallBack)
+    : RecyclerView.Adapter<SearchResultsAdapter.ItemHolder>(), Filterable {
     inner class ItemHolder(val binding: BookSearchItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
     var filteredList = ArrayList<Book>()
@@ -27,6 +32,11 @@ class SearchResultsAdapter(val allBooksList:ArrayList<Book>): RecyclerView.Adapt
         Glide.with(holder.binding.root).load(item.imageUrl).into(holder.binding.bookImage)
         holder.binding.isAvailable.text = getAvailableText(item.count)
         holder.binding.isAvailable.setBackgroundColor(getAvailableColor(item.count))
+
+        holder.binding.itemLayoutRoot.setOnClickListener {
+            searchResultsCallBack.searchResultsItemClickListener(item)
+        }
+
     }
 
     override fun getItemCount(): Int {

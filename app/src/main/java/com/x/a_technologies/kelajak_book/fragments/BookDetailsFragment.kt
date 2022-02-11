@@ -9,11 +9,14 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.orhanobut.hawk.Hawk
 import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.adapters.ReviewsAdapter
 import com.x.a_technologies.kelajak_book.databinding.FragmentBookDetailsBinding
@@ -25,14 +28,21 @@ import com.x.a_technologies.kelajak_book.models.UserReviewIds
 import java.util.*
 import kotlin.collections.ArrayList
 
+fun Fragment.findTopNavController():NavController{
+    val topLevelHost = requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+    return topLevelHost.navController
+}
+
 class BookDetailsFragment : Fragment() {
 
     lateinit var binding: FragmentBookDetailsBinding
     lateinit var reviewsAdapter: ReviewsAdapter
     lateinit var currentBook:Book
     var reviewsList = ArrayList<Review>()
+    var bookmarkList = ArrayList<Book>()
 
     var isNew = true
+    var isSaved = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +74,7 @@ class BookDetailsFragment : Fragment() {
             if (UserInfo.currentUser == null){
                 Toast.makeText(requireActivity(), "You must register to leave a review.", Toast.LENGTH_SHORT).show()
                 AuthorizationNumberFragment.fromInfoFragment = false
-                findNavController().navigate(R.id.action_bookDetailsFragment_to_authorizationNumberFragment)
+                findTopNavController().navigate(R.id.authorizationNumberFragment)
             }else{
                 sendReview()
             }
@@ -77,40 +87,66 @@ class BookDetailsFragment : Fragment() {
             ))
         }
 
+        binding.saveToBookmark.setOnClickListener {
+            isSaved = !isSaved
+            if (isSaved) {
+                binding.saveToBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
+                bookmarkList.add(0, currentBook)
+            }
+            else {
+                binding.saveToBookmark.setImageResource(R.drawable.ic_bookmark)
+                bookmarkList.remove(currentBook)
+            }
+        }
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        write()
     }
 
     private fun check(){
         if (isNew){
             isNew = false
             currentBook = arguments?.getSerializable("currentBook") as Book
+            if (arguments?.getBoolean("forSearchResults", false)!!){
+                addSearchedCount()
+            }
 
             reviewsAdapter = ReviewsAdapter(reviewsList, getItemCount())
             init()
+            read()
             loadCurrentBookReviews()
         }else{
             init()
+            if (isSaved){
+                binding.saveToBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
+            }
         }
     }
 
     private fun init(){
-        binding.reviewsRv.adapter = reviewsAdapter
-        Glide.with(requireActivity()).load(currentBook.imageUrl).into(binding.bookImage)
-        binding.bookName.text = currentBook.name
-        binding.bookAuthorName.text = currentBook.author
-        binding.bookCount.text = currentBook.count.toString()
-        binding.bookPagesCount.text = currentBook.pagesCount.toString()
-        binding.bookLanguage.text = currentBook.language
-        binding.bookAlphabet.text = currentBook.alphabetType
-        binding.bookCoatingType.text = currentBook.coatingType
-        binding.bookManufacturingCompany.text = currentBook.manufacturingCompany
-        binding.bookRentPrice.text = currentBook.rentPrice
-        binding.bookSellingPrice.text = currentBook.sellingPrice
-        binding.bookMoreInfo.text = currentBook.moreInformation
-        reviewsCountManager()
+        binding.apply {
+            reviewsRv.adapter = reviewsAdapter
+            Glide.with(requireActivity()).load(currentBook.imageUrl).into(bookImage)
+            bookName.text = currentBook.name
+            bookAuthorName.text = currentBook.author
+            bookCount.text = currentBook.count.toString()
+            bookPagesCount.text = currentBook.pagesCount.toString()
+            bookLanguage.text = currentBook.language
+            bookAlphabet.text = currentBook.alphabetType
+            bookCoatingType.text = currentBook.coatingType
+            bookManufacturingCompany.text = currentBook.manufacturingCompany
+            bookRentPrice.text = currentBook.rentPrice
+            bookSellingPrice.text = currentBook.sellingPrice
+            bookMoreInfo.text = currentBook.moreInformation
+            reviewsCountManager()
 
-        if(UserInfo.currentUser != null){
-            if (UserInfo.currentUser!!.imageUrl != null){
-                Glide.with(requireActivity()).load(UserInfo.currentUser!!.imageUrl).into(binding.currentUserImage)
+            if(UserInfo.currentUser != null){
+                if (UserInfo.currentUser!!.imageUrl != null){
+                    Glide.with(requireActivity()).load(UserInfo.currentUser!!.imageUrl).into(currentUserImage)
+                }
             }
         }
     }
@@ -212,6 +248,44 @@ class BookDetailsFragment : Fragment() {
             binding.sendReview.visibility = View.VISIBLE
             binding.sendingProgressBar.visibility = View.GONE
         }
+    }
+
+    private fun addSearchedCount(){
+        DatabaseRef.booksRef.child(currentBook.bookId).child("searchedCount")
+            .addListenerForSingleValueEvent(object :ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var count = snapshot.value.toString().toInt()
+                    count++
+                    DatabaseRef.booksRef.child(currentBook.bookId).child("searchedCount").setValue(count)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+    }
+
+    private fun read(){
+        bookmarkList = Hawk.get("bookmarkList", ArrayList())
+        checkSavedBookmark()
+    }
+
+    private fun write(){
+        Hawk.put("bookmarkList", bookmarkList)
+    }
+
+    private fun checkSavedBookmark(){
+        Thread{
+            for (item in bookmarkList){
+                if (currentBook.bookId == item.bookId){
+                    requireActivity().runOnUiThread {
+                        binding.saveToBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
+                        isSaved = true
+                    }
+                    break
+                }
+            }
+        }.start()
     }
 
 }

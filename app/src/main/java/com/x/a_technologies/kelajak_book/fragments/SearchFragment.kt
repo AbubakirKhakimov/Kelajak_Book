@@ -6,18 +6,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.orhanobut.hawk.Hawk
+import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.adapters.SearchResultsAdapter
+import com.x.a_technologies.kelajak_book.adapters.SearchResultsCallBack
 import com.x.a_technologies.kelajak_book.adapters.TopBookSearchAdapter
+import com.x.a_technologies.kelajak_book.adapters.TopBookSearchCallBack
 import com.x.a_technologies.kelajak_book.databinding.FragmentSearchBinding
 import com.x.a_technologies.kelajak_book.datas.DatabaseRef
 import com.x.a_technologies.kelajak_book.models.Book
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), TopBookSearchCallBack, SearchResultsCallBack {
 
     lateinit var binding: FragmentSearchBinding
     lateinit var searchResultAdapter: SearchResultsAdapter
@@ -64,8 +69,8 @@ class SearchFragment : Fragment() {
         if (isNew){
             isNew = false
 
-            searchResultAdapter = SearchResultsAdapter(allBooksList)
-            topBookSearchAdapter = TopBookSearchAdapter(topBooksList)
+            searchResultAdapter = SearchResultsAdapter(allBooksList, this)
+            topBookSearchAdapter = TopBookSearchAdapter(topBooksList, this)
             initRecycler()
 
             if(dataIsEmpty) {
@@ -85,7 +90,7 @@ class SearchFragment : Fragment() {
     private fun loadTopBookSearch(){
         isLoading(true)
 
-        val topSearchQuery = DatabaseRef.booksRef.orderByChild("searchedCount").limitToFirst(16)
+        val topSearchQuery = DatabaseRef.booksRef.orderByChild("searchedCount").limitToLast(16)
         topSearchQuery.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 topBooksList.clear()
@@ -93,6 +98,7 @@ class SearchFragment : Fragment() {
                 for (item in snapshot.children){
                     topBooksList.add(item.getValue(Book::class.java)!!)
                 }
+                topBooksList.reverse()
 
                 topBookSearchAdapter.notifyDataSetChanged()
                 isLoading(false)
@@ -116,9 +122,17 @@ class SearchFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("destroyList", "destroyedSearchFragment")
+    override fun topBookSearchItemClickListener(position: Int) {
+        findNavController().navigate(R.id.action_searchFragment_to_bookDetailsFragment, bundleOf(
+            "currentBook" to topBooksList[position]
+        ))
+    }
+
+    override fun searchResultsItemClickListener(item:Book) {
+        findNavController().navigate(R.id.action_searchFragment_to_bookDetailsFragment, bundleOf(
+            "currentBook" to item,
+            "forSearchResults" to true
+        ))
     }
 
 }

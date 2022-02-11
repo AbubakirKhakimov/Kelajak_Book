@@ -6,56 +6,6 @@
     app:startDestination="@id/splashFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.x.a_technologies.kelajak_book.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_bookDetailsFragment"
-            app:destination="@id/bookDetailsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_getUserInfoFragment"
-            app:destination="@id/getUserInfoFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_allBooksFragment"
-            app:destination="@id/allBooksFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.x.a_technologies.kelajak_book.fragments.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragment_to_bookDetailsFragment"
-            app:destination="@id/bookDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/bookmarkFragment"
-        android:name="com.x.a_technologies.kelajak_book.fragments.BookmarkFragment"
-        android:label="fragment_bookmark"
-        tools:layout="@layout/fragment_bookmark" >
-        <action
-            android:id="@+id/action_bookmarkFragment_to_bookDetailsFragment"
-            app:destination="@id/bookDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.x.a_technologies.kelajak_book.fragments.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
-        android:id="@+id/bookDetailsFragment"
-        android:name="com.x.a_technologies.kelajak_book.fragments.BookDetailsFragment"
-        android:label="fragment_book_details"
-        tools:layout="@layout/fragment_book_details" >
-        <action
-            android:id="@+id/action_bookDetailsFragment_to_authorizationNumberFragment"
-            app:destination="@id/authorizationNumberFragment" />
-        <action
-            android:id="@+id/action_bookDetailsFragment_to_allReviewsFragment"
-            app:destination="@id/allReviewsFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/splashFragment"
         android:name="com.x.a_technologies.kelajak_book.fragments.SplashFragment"
         android:label="fragment_splash"
@@ -71,8 +21,8 @@
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_splashFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
+            android:id="@+id/action_splashFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -106,8 +56,8 @@
             android:id="@+id/action_authorizationNumberFragment_to_getUserInfoFragment"
             app:destination="@id/getUserInfoFragment" />
         <action
-            android:id="@+id/action_authorizationNumberFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
+            android:id="@+id/action_authorizationNumberFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment"
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -120,8 +70,8 @@
             android:id="@+id/action_verificationCodeFragment_to_getUserInfoFragment"
             app:destination="@id/getUserInfoFragment" />
         <action
-            android:id="@+id/action_verificationCodeFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
+            android:id="@+id/action_verificationCodeFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment"
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -131,23 +81,18 @@
         android:label="fragment_get_user_info"
         tools:layout="@layout/fragment_get_user_info" >
         <action
-            android:id="@+id/action_getUserInfoFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
+            android:id="@+id/action_getUserInfoFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment"
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/allReviewsFragment"
-        android:name="com.x.a_technologies.kelajak_book.fragments.AllReviewsFragment"
-        android:label="fragment_all_reviews"
-        tools:layout="@layout/fragment_all_reviews" />
-    <fragment
-        android:id="@+id/allBooksFragment"
-        android:name="com.x.a_technologies.kelajak_book.fragments.AllBooksFragment"
-        android:label="fragment_all_books"
-        tools:layout="@layout/fragment_all_books" >
+        android:id="@+id/tabsFragment"
+        android:name="com.x.a_technologies.kelajak_book.fragments.TabsFragment"
+        android:label="fragment_tabs"
+        tools:layout="@layout/fragment_tabs" >
         <action
-            android:id="@+id/action_allBooksFragment_to_bookDetailsFragment"
-            app:destination="@id/bookDetailsFragment" />
+            android:id="@+id/action_tabsFragment_to_authorizationNumberFragment"
+            app:destination="@id/authorizationNumberFragment" />
     </fragment>
 </navigation>

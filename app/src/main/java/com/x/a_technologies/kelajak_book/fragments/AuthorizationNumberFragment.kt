@@ -54,7 +54,7 @@ class AuthorizationNumberFragment : Fragment() {
 
         binding.skip.setOnClickListener {
             Hawk.put("isFirstRun", false)
-            findNavController().navigate(R.id.action_authorizationNumberFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_authorizationNumberFragment_to_tabsFragment)
         }
 
         binding.nextButton.setOnClickListener {
@@ -122,7 +122,7 @@ class AuthorizationNumberFragment : Fragment() {
                         UserInfo.currentUser = snapshot.getValue(User::class.java)
 
                         if (fromInfoFragment){
-                            findNavController().navigate(R.id.action_authorizationNumberFragment_to_homeFragment)
+                            findNavController().navigate(R.id.action_authorizationNumberFragment_to_tabsFragment)
                         }else {
                             findNavController().popBackStack()
                         }
