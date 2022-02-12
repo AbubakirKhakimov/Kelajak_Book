@@ -488,6 +488,7 @@
                             android:id="@+id/currentUserImage"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/user_profile_human" />
 
                     </androidx.cardview.widget.CardView>

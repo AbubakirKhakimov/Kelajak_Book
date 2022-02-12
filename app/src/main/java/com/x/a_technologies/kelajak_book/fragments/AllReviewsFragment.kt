@@ -37,7 +37,7 @@ class AllReviewsFragment : Fragment() {
         binding.bookName.text = "Reviews of \" ${bookName} \""
         binding.reviewsCount.text = "${reviewsList!!.size} reviews"
 
-        reviewsAdapter = ReviewsAdapter(reviewsList!!, reviewsList!!.size)
+        reviewsAdapter = ReviewsAdapter(reviewsList!!, true)
         binding.allReviewsRv.adapter = reviewsAdapter
 
         binding.backButton.setOnClickListener {

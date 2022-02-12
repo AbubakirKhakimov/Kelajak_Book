@@ -1,18 +1,12 @@
 package com.x.a_technologies.kelajak_book.activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.NavigationUiSaveStateControl
-import androidx.navigation.ui.setupWithNavController
 import com.orhanobut.hawk.Hawk
-import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.databinding.ActivityMainBinding
+import com.x.a_technologies.kelajak_book.datas.ImageTracker
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +17,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data != null && data.data != null && resultCode == RESULT_OK){
+            if (ImageTracker.imageSelectedCallBack != null){
+                ImageTracker.imageSelectedCallBack!!.imageSelectedListener(data.data!!)
+            }
+        }
     }
 
     override fun attachBaseContext(newBase: Context?) {

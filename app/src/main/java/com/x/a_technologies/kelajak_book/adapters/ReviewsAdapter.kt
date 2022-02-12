@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ReviewsAdapter(val reviewsList:ArrayList<Review>, var setItemCount:Int):RecyclerView.Adapter<ReviewsAdapter.ItemHolder>() {
+class ReviewsAdapter(val reviewsList:ArrayList<Review>, val isFullList:Boolean = false):RecyclerView.Adapter<ReviewsAdapter.ItemHolder>() {
     inner class ItemHolder(val binding: ReviewsItemLayoutBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
@@ -41,7 +41,11 @@ class ReviewsAdapter(val reviewsList:ArrayList<Review>, var setItemCount:Int):Re
     }
 
     override fun getItemCount(): Int {
-        return setItemCount
+        return if (isFullList || reviewsList.size <= 3){
+            reviewsList.size
+        }else{
+            3
+        }
     }
 
     private fun getDate(timeMillis:Long):String{

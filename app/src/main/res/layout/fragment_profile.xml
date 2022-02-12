@@ -64,6 +64,7 @@
                                 android:id="@+id/userImage"
                                 android:layout_width="120dp"
                                 android:layout_height="120dp"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/user_profile_human" />
 
                         </androidx.cardview.widget.CardView>
@@ -156,6 +157,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -191,6 +193,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/termsTrade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -208,7 +211,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Rental information"
+                        android:text="Terms of trade"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
@@ -225,6 +228,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/contactUs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -260,6 +264,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/aboutProgram"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"

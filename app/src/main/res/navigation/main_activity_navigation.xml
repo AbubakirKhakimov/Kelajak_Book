@@ -94,5 +94,21 @@
         <action
             android:id="@+id/action_tabsFragment_to_authorizationNumberFragment"
             app:destination="@id/authorizationNumberFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_termsOfTradeFragment"
+            app:destination="@id/termsOfTradeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.x.a_technologies.kelajak_book.fragments.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/termsOfTradeFragment"
+        android:name="com.x.a_technologies.kelajak_book.fragments.TermsOfTradeFragment"
+        android:label="fragment_terms_of_trade"
+        tools:layout="@layout/fragment_terms_of_trade" />
 </navigation>

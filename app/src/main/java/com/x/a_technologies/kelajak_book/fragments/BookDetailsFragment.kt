@@ -23,6 +23,7 @@ import com.x.a_technologies.kelajak_book.databinding.FragmentBookDetailsBinding
 import com.x.a_technologies.kelajak_book.datas.DatabaseRef
 import com.x.a_technologies.kelajak_book.datas.UserInfo
 import com.x.a_technologies.kelajak_book.models.Book
+import com.x.a_technologies.kelajak_book.models.Keys
 import com.x.a_technologies.kelajak_book.models.Review
 import com.x.a_technologies.kelajak_book.models.UserReviewIds
 import java.util.*
@@ -114,7 +115,7 @@ class BookDetailsFragment : Fragment() {
                 addSearchedCount()
             }
 
-            reviewsAdapter = ReviewsAdapter(reviewsList, getItemCount())
+            reviewsAdapter = ReviewsAdapter(reviewsList)
             init()
             read()
             loadCurrentBookReviews()
@@ -153,33 +154,31 @@ class BookDetailsFragment : Fragment() {
     
     private fun sendReview(){
         isLoading(true)
-        val reviewText = binding.reviewEdt.text.toString()
-
-        val reviewRef = DatabaseRef.reviewsRef.child(currentBook.bookId).push()
-        val userReviewIdsRef = DatabaseRef.usersReviewsIdsRef
-            .child(UserInfo.currentUser!!.phoneNumber).child(reviewRef.key!!)
+        val reviewRefKey = DatabaseRef.reviewsRef.child(currentBook.bookId).push().key!!
 
         val review = Review(
-            reviewRef.key!!
-            ,UserInfo.currentUser!!
-            ,reviewText
-            ,Date().time
-            ,null
-            ,null)
+            reviewRefKey,
+            UserInfo.currentUser!!,
+            binding.reviewEdt.text.toString(),
+            Date().time,
+            null,
+            null)
 
         val userReviewIds = UserReviewIds(
-            currentBook.bookId
-            ,reviewRef.key!!)
+            currentBook.bookId,
+            reviewRefKey)
 
-        userReviewIdsRef.setValue(userReviewIds)
+        val queryData = hashMapOf<String, Any>(
+            "${Keys.REVIEWS_KEY}/${currentBook.bookId}/${reviewRefKey}" to review,
+            "${Keys.USERS_REVIEWS_IDS}/${UserInfo.currentUser!!.phoneNumber}/${reviewRefKey}" to userReviewIds
+        )
 
-        reviewRef.setValue(review).addOnCompleteListener {
+        DatabaseRef.rootRef.updateChildren(queryData).addOnCompleteListener {
             if (it.isSuccessful){
                 binding.reviewEdt.text.clear()
                 reviewsList.add(0, review)
 
                 reviewsCountManager()
-                reviewsAdapter.setItemCount = getItemCount()
                 reviewsAdapter.notifyDataSetChanged()
                 binding.noReviewsTitle.visibility = View.GONE
             }else{
@@ -212,7 +211,6 @@ class BookDetailsFragment : Fragment() {
                 }
 
                 reviewsCountManager()
-                reviewsAdapter.setItemCount = getItemCount()
                 reviewsAdapter.notifyDataSetChanged()
                 binding.reviewsProgressBar.visibility = View.GONE
             }
@@ -229,14 +227,6 @@ class BookDetailsFragment : Fragment() {
         }else{
             binding.reviewsCount.visibility = View.VISIBLE
             binding.reviewsCount.text = "All ${reviewsList.size} reviews"
-        }
-    }
-
-    fun getItemCount():Int{
-        return if (reviewsList.size <= 3){
-            reviewsList.size
-        }else{
-            3
         }
     }
     

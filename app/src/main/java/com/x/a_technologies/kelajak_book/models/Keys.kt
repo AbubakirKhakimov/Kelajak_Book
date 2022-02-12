@@ -6,4 +6,5 @@ object Keys {
     const val USERS_REVIEWS_IDS = "usersReviewsIds"
     const val CATEGORIES_KEY = "categories"
     const val USERS_KEY = "users"
+    const val TERMS_OF_TRADE_KEY = "termsOfTrade"
 }

@@ -39,7 +39,11 @@
         android:id="@+id/profileFragment"
         android:name="com.x.a_technologies.kelajak_book.fragments.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_changeLanguageFragment"
+            app:destination="@id/changeLanguageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
         android:name="com.x.a_technologies.kelajak_book.fragments.BookDetailsFragment"
@@ -63,5 +67,10 @@
             android:id="@+id/action_allBooksFragment_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/changeLanguageFragment"
+        android:name="com.x.a_technologies.kelajak_book.fragments.ChangeLanguageFragment"
+        android:label="fragment_change_language"
+        tools:layout="@layout/fragment_change_language" />
 
 </navigation>
