@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.orhanobut.hawk.Hawk
 import com.x.a_technologies.kelajak_book.databinding.ActivityMainBinding
 import com.x.a_technologies.kelajak_book.datas.ImageTracker
+import com.x.a_technologies.kelajak_book.utils.LocaleManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context?) {
         Hawk.init(newBase).build();
-        super.attachBaseContext(newBase)
+        super.attachBaseContext(LocaleManager.setLocale(newBase))
     }
 
 }

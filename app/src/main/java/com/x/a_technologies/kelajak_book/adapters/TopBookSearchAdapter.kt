@@ -1,10 +1,12 @@
 package com.x.a_technologies.kelajak_book.adapters
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.databinding.BookSearchItemLayoutBinding
 import com.x.a_technologies.kelajak_book.models.Book
 
@@ -12,7 +14,7 @@ interface TopBookSearchCallBack{
     fun topBookSearchItemClickListener(position: Int)
 }
 
-class TopBookSearchAdapter(val searchBooksList:ArrayList<Book>, val topBookSearchCallBack: TopBookSearchCallBack)
+class TopBookSearchAdapter(val searchBooksList:ArrayList<Book>, val topBookSearchCallBack: TopBookSearchCallBack, val context:Context)
     : RecyclerView.Adapter<TopBookSearchAdapter.ItemHolder>() {
     inner class ItemHolder(val binding: BookSearchItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -41,9 +43,9 @@ class TopBookSearchAdapter(val searchBooksList:ArrayList<Book>, val topBookSearc
 
     private fun getAvailableText(count: Int):String{
         return if (count == 0){
-            "Not available"
+            context.getString(R.string.notAvailable)
         }else{
-            "Available"
+            context.getString(R.string.available)
         }
     }
 

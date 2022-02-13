@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -61,7 +62,7 @@ class VerificationCodeFragment : Fragment() {
                 if (task.isSuccessful) {
                     checkUserDatabase()
                 } else {
-                    Toast.makeText(requireActivity(), "Invalid code, please try again!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), getString(R.string.invalid_code_please_try_again), Toast.LENGTH_SHORT).show()
                     loading(false)
                     clearEditText()
                 }
@@ -82,15 +83,21 @@ class VerificationCodeFragment : Fragment() {
                         }else {
                             findNavController().popBackStack(R.id.authorizationNumberFragment, true)
                         }
+                        showSnackBar(getString(R.string.you_have_successfully_sign_in_system))
                     }
 
                     loading(false)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                     loading(false)
                 }
             })
+    }
+
+    fun showSnackBar(text:String){
+        Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun loading(bool: Boolean) {

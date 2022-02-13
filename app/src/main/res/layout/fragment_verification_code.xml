@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="80dp"
         android:layout_marginBottom="80dp"
-        android:text="Verification"
+        android:text="@string/verification"
         android:textColor="@color/white"
         android:textSize="32sp"
         android:textStyle="bold"
@@ -56,7 +56,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
                     android:gravity="center"
-                    android:text="Enter the verification code"
+                    android:text="@string/enter_the_verification_code"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />

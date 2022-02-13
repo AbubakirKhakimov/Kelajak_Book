@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.databinding.FragmentEditProfileBinding
 import com.x.a_technologies.kelajak_book.datas.ImageTracker
 import com.x.a_technologies.kelajak_book.datas.DatabaseRef
@@ -92,7 +93,7 @@ class EditProfileFragment : Fragment(), ImageSelectedCallBack {
                 UserInfo.currentUser = user
                 findNavController().popBackStack()
             }else{
-                Toast.makeText(requireActivity(), "Error!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
             }
             isLoading(false)
         }
@@ -117,7 +118,7 @@ class EditProfileFragment : Fragment(), ImageSelectedCallBack {
             if (task.isSuccessful) {
                 saveChangedDatabase(task.result.toString())
             } else {
-                Toast.makeText(requireActivity(), "Error!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                 isLoading(false)
             }
         }
@@ -138,6 +139,7 @@ class EditProfileFragment : Fragment(), ImageSelectedCallBack {
             }
 
             override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                 isLoading(false)
             }
         })

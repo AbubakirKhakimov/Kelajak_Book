@@ -13,5 +13,6 @@ object DatabaseRef {
     val usersReviewsIdsRef = Firebase.database.getReference(Keys.USERS_REVIEWS_IDS)
     val categoriesRef = Firebase.database.getReference(Keys.CATEGORIES_KEY)
     val termsOfTradeRef = Firebase.database.getReference(Keys.TERMS_OF_TRADE_KEY)
-    val storageRef = FirebaseStorage.getInstance().getReference("users image")
+    val socialMediaRef = Firebase.database.getReference(Keys.SOCIAL_MEDIA_REFERENCES_KEY)
+    val storageRef = FirebaseStorage.getInstance().getReference(Keys.USERS_STORAGE_KEY)
 }

@@ -7,4 +7,6 @@ object Keys {
     const val CATEGORIES_KEY = "categories"
     const val USERS_KEY = "users"
     const val TERMS_OF_TRADE_KEY = "termsOfTrade"
+    const val SOCIAL_MEDIA_REFERENCES_KEY = "socialMediaReferences"
+    const val USERS_STORAGE_KEY = "users image"
 }

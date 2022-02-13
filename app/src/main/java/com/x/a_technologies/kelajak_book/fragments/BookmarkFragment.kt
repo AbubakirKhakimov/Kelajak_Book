@@ -17,9 +17,11 @@ import com.x.a_technologies.kelajak_book.models.Book
 
 class BookmarkFragment : Fragment(), BookmarkCallBack {
 
-    var bookmarkList = ArrayList<Book>()
     lateinit var bookMarkAdapter:BookmarkAdapter
     lateinit var binding: FragmentBookmarkBinding
+
+    var bookmarkList = ArrayList<String>()
+    var booksList = ArrayList<Book>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,19 +36,61 @@ class BookmarkFragment : Fragment(), BookmarkCallBack {
         super.onViewCreated(view, savedInstanceState)
 
         read()
-        bookMarkAdapter = BookmarkAdapter(bookmarkList, this)
+        bookMarkAdapter = BookmarkAdapter(booksList, this, requireActivity())
         binding.booksListRv.adapter = bookMarkAdapter
+
+        binding.swipeRefresh.setOnRefreshListener {
+            searchInAllBooks()
+        }
 
     }
 
     private fun read(){
         bookmarkList = Hawk.get("bookmarkList", ArrayList())
+        searchInAllBooks()
+    }
+
+    private fun write(){
+        Hawk.put("bookmarkList", bookmarkList)
+    }
+
+    private fun searchInAllBooks(){
+        if (SearchFragment.allBooksList.isNotEmpty()) {
+            binding.swipeRefresh.isRefreshing = true
+            booksList.clear()
+            Thread {
+                val allBooksList = SearchFragment.allBooksList
+                for (id in bookmarkList) {
+                    for (i in allBooksList.indices) {
+                        if (id == allBooksList[i].bookId) {
+                            booksList.add(allBooksList[i])
+                            break
+                        }else if (i == allBooksList.size-1){
+                            bookmarkList.remove(id)
+                            write()
+                        }
+                    }
+                }
+
+                requireActivity().runOnUiThread {
+                    bookMarkAdapter.notifyDataSetChanged()
+                    binding.swipeRefresh.isRefreshing = false
+                }
+            }.start()
+        }else{
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     override fun bookmarkItemClickListener(position: Int) {
         findNavController().navigate(R.id.action_bookmarkFragment_to_bookDetailsFragment, bundleOf(
-            "currentBook" to bookmarkList[position]
+            "currentBook" to booksList[position]
         ))
+    }
+
+    override fun bookmarkItemRemovedListener(position: Int) {
+        bookmarkList.removeAt(position)
+        write()
     }
 
 }

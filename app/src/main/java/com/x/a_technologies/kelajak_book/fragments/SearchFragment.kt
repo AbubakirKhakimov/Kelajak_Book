@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
@@ -69,8 +70,8 @@ class SearchFragment : Fragment(), TopBookSearchCallBack, SearchResultsCallBack 
         if (isNew){
             isNew = false
 
-            searchResultAdapter = SearchResultsAdapter(allBooksList, this)
-            topBookSearchAdapter = TopBookSearchAdapter(topBooksList, this)
+            searchResultAdapter = SearchResultsAdapter(allBooksList, this, requireActivity())
+            topBookSearchAdapter = TopBookSearchAdapter(topBooksList, this, requireActivity())
             initRecycler()
 
             if(dataIsEmpty) {
@@ -104,7 +105,7 @@ class SearchFragment : Fragment(), TopBookSearchCallBack, SearchResultsCallBack 
                 isLoading(false)
             }
             override fun onCancelled(error: DatabaseError) {
-
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
             }
         })
     }

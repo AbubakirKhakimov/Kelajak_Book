@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Profile"
+            android:text="@string/profile"
             android:textColor="@color/main_color"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -81,7 +81,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
-                                android:text="Anonymous user"
+                                android:text="@string/anonymous_user"
+                                android:gravity="center"
                                 android:textColor="@color/main_color"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
@@ -108,14 +109,15 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/editProfile"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="24dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="24dp"
                             android:layout_marginBottom="16dp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/white"
-                            android:text="Edit profile"
+                            android:gravity="center"
+                            android:text="@string/edit_profile"
                             android:textColor="@color/main_color"
                             app:cornerRadius="8dp"
                             app:strokeColor="@color/main_color"
@@ -124,13 +126,13 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/signOut"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="24dp"
                             android:layout_marginBottom="16dp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/white"
-                            android:text="Sign out"
+                            android:text="@string/sign_out"
                             android:textColor="@color/main_color"
                             app:cornerRadius="8dp"
                             app:strokeColor="@color/main_color"
@@ -143,9 +145,9 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
                             android:backgroundTint="@color/white"
-                            android:text="Sign in"
-                            android:visibility="gone"
+                            android:text="@string/sign_in"
                             android:textColor="@color/main_color"
+                            android:visibility="gone"
                             app:cornerRadius="8dp"
                             app:strokeColor="@color/main_color"
                             app:strokeWidth="2dp" />
@@ -174,10 +176,10 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Language"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/languagesListName"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -185,6 +187,7 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_baseline_arrow_forward_ios_24"
                         app:tint="@color/main_color" />
 
@@ -209,10 +212,10 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Terms of trade"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/terms_of_trade"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -220,6 +223,7 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_baseline_arrow_forward_ios_24"
                         app:tint="@color/main_color" />
 
@@ -245,10 +249,10 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Contact us"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/contact_us"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -256,6 +260,7 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_baseline_arrow_forward_ios_24"
                         app:tint="@color/main_color" />
 
@@ -280,10 +285,10 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="About the program"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/about_the_program"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -291,6 +296,7 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_baseline_arrow_forward_ios_24"
                         app:tint="@color/main_color" />
 

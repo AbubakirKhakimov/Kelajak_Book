@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Search"
+            android:text="@string/search"
             android:textColor="@color/main_color"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -41,7 +41,7 @@
                 android:background="@drawable/search_edit_text_backgraund"
                 android:drawableStart="@drawable/ic_outline_search"
                 android:drawablePadding="8dp"
-                android:hint="Search books"
+                android:hint="@string/search_books"
                 android:padding="16dp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="Top book search"
+                android:text="@string/top_book_search"
                 android:textColor="@color/main_color"
                 android:textSize="20sp"
                 android:textStyle="bold" />

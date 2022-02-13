@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Edit profile"
+            android:text="@string/edit_profile"
             android:textColor="@color/main_color"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -117,7 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:hint="First name (necessarily)"
+                    android:hint="@string/first_name"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -141,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:hint="Last name (not necessary)"
+                    android:hint="@string/last_name"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 

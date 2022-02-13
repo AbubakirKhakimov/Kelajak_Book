@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.x.a_technologies.kelajak_book.R
@@ -40,7 +41,7 @@ class GetUserInfoFragment : Fragment() {
             val lastName = binding.lastName.text.toString()
             
             if (firstName.isEmpty()){
-                Toast.makeText(requireActivity(), "Please write your first name!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), getString(R.string.please_write_your_first_name), Toast.LENGTH_SHORT).show()
             }else{
                 loading(true)
                 user = User(phoneNumber, firstName, lastName, null)
@@ -54,9 +55,10 @@ class GetUserInfoFragment : Fragment() {
                         }else{
                             findNavController().popBackStack(R.id.authorizationNumberFragment, true)
                         }
+                        showSnackBar(getString(R.string.you_have_successfully_logged_system))
                         loading(false)
                     }else{
-                        Toast.makeText(requireActivity(), "Error!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                         loading(false)
                     }
                 }
@@ -65,7 +67,11 @@ class GetUserInfoFragment : Fragment() {
 
     }
 
-    fun loading(bool:Boolean){
+    private fun showSnackBar(text:String){
+        Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun loading(bool:Boolean){
         if (bool){
             binding.nextButton.visibility = View.GONE
             binding.progressBar.visibility = View.VISIBLE

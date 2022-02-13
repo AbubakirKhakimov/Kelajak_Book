@@ -11,9 +11,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.databinding.AboutProgramDialogLayoutBinding
@@ -22,6 +26,7 @@ import com.x.a_technologies.kelajak_book.databinding.FragmentProfileBinding
 import com.x.a_technologies.kelajak_book.databinding.SignOutDialogLayoutBinding
 import com.x.a_technologies.kelajak_book.datas.DatabaseRef
 import com.x.a_technologies.kelajak_book.datas.UserInfo
+import com.x.a_technologies.kelajak_book.models.SocialMediaReferences
 
 class ProfileFragment : Fragment() {
 
@@ -73,23 +78,38 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showContactUsDialog(){
+        var socialMedia = SocialMediaReferences()
         val customDialog = AlertDialog.Builder(requireActivity()).create()
         customDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val dialogBinding = ContactUsDialogLayoutBinding.inflate(layoutInflater)
         customDialog.setView(dialogBinding.root)
 
+        dialogBinding.progressBar.visibility = View.VISIBLE
+        dialogBinding.constraintLayout.visibility = View.GONE
+        DatabaseRef.socialMediaRef.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                socialMedia = snapshot.getValue(SocialMediaReferences::class.java)!!
+                dialogBinding.progressBar.visibility = View.GONE
+                dialogBinding.constraintLayout.visibility = View.VISIBLE
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
+            }
+        })
+
         dialogBinding.phoneNumber.setOnClickListener {
-            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:+998916566533"))
+            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${socialMedia.phoneNumber}"))
             startActivity(callIntent)
         }
 
         dialogBinding.telegram.setOnClickListener {
-            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/kelajak_book"))
+            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(socialMedia.telegramUrl))
             startActivity(callUrlIntent)
         }
 
         dialogBinding.instagram.setOnClickListener {
-            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/kelajak_book?r=nametag"))
+            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(socialMedia.instagramUrl))
             startActivity(callUrlIntent)
         }
 
@@ -137,7 +157,7 @@ class ProfileFragment : Fragment() {
                 editProfile.visibility = View.GONE
                 signIn.visibility = View.VISIBLE
                 userPhoneNumber.visibility = View.GONE
-                userName.text = "Anonymous user"
+                userName.text = getString(R.string.anonymous_user)
                 userImage.setImageResource(R.drawable.user_profile_human)
             } else {
                 signOut.visibility = View.VISIBLE

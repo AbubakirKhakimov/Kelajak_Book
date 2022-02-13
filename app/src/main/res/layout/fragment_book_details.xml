@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Detail Book"
+            android:text="@string/detail_book"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -120,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="Count"
+                            android:text="@string/count"
                             android:textColor="#DDE0EA"
                             android:textSize="12sp" />
 
@@ -146,7 +146,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="Pages"
+                            android:text="@string/pages"
                             android:textColor="#DDE0EA"
                             android:textSize="12sp" />
 
@@ -172,7 +172,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="Language"
+                            android:text="@string/languagesListName"
                             android:textColor="#DDE0EA"
                             android:textSize="12sp" />
 
@@ -198,7 +198,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="Alphabet"
+                            android:text="@string/alphabet"
                             android:textColor="#DDE0EA"
                             android:textSize="12sp" />
 
@@ -232,7 +232,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="Coating type"
+                            android:text="@string/coating_type"
                             android:textColor="#DDE0EA"
                             android:textSize="12sp" />
 
@@ -258,7 +258,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="Manufacturing company"
+                            android:text="@string/manufacturing_company"
                             android:textColor="#DDE0EA"
                             android:textSize="12sp" />
 
@@ -311,7 +311,7 @@
                             android:layout_marginEnd="4dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="Ijara narxi"
+                            android:text="@string/rent_price"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -348,7 +348,7 @@
                             android:layout_marginEnd="4dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="Sotuv narxi"
+                            android:text="@string/selling_price"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -384,9 +384,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="48dp"
-                    android:text="About book"
+                    android:text="@string/about_book"
                     android:textColor="@color/main_color"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -414,7 +414,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Book reviews"
+                        android:text="@string/book_reviews"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -425,10 +425,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="All 25 reviews"
-                        android:visibility="gone"
                         android:textColor="@color/gray"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -438,7 +438,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
-                    android:text="No reviews"
+                    android:text="@string/no_reviews"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     android:visibility="gone" />
@@ -460,10 +460,10 @@
                         android:id="@+id/reviewsProgressBar"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:visibility="gone"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"/>
+                        android:layout_marginBottom="16dp"
+                        android:visibility="gone" />
 
                 </FrameLayout>
 
@@ -502,7 +502,7 @@
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:hint="Review here"
+                        android:hint="@string/review_here"
                         android:padding="8dp"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
@@ -516,8 +516,8 @@
                             android:id="@+id/sendReview"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:visibility="gone"
                             android:src="@drawable/ic_baseline_send_24"
+                            android:visibility="gone"
                             app:tint="@color/main_color" />
 
                         <ProgressBar

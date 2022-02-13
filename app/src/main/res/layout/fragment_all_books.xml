@@ -33,22 +33,12 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/categoryNameTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="All books in the category"
-                android:textColor="@color/main_color"
-                android:textSize="32sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/categoryName_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/all_books_in_the_category_roman"
+                android:text="All books in the category Roman"
                 android:textColor="@color/main_color"
                 android:textSize="32sp"
                 android:textStyle="bold" />

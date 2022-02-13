@@ -11,6 +11,9 @@ import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.adapters.BooksByCategoriesAdapter
 import com.x.a_technologies.kelajak_book.adapters.BooksByCategoriesCallBack
 import com.x.a_technologies.kelajak_book.databinding.FragmentAllBooksBinding
+import com.x.a_technologies.kelajak_book.models.Book
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AllBooksFragment : Fragment(), BooksByCategoriesCallBack {
 
@@ -18,6 +21,7 @@ class AllBooksFragment : Fragment(), BooksByCategoriesCallBack {
     lateinit var booksByCategoriesAdapter: BooksByCategoriesAdapter
 
     lateinit var categoryName:String
+    var booksList = ArrayList<Book>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,12 +36,13 @@ class AllBooksFragment : Fragment(), BooksByCategoriesCallBack {
         super.onViewCreated(view, savedInstanceState)
 
         categoryName = arguments?.getString("categoryName")!!
+        booksList = arguments?.getParcelableArrayList("booksList")!!
 
-        booksByCategoriesAdapter = BooksByCategoriesAdapter(HomeFragment.booksList, this)
+        booksByCategoriesAdapter = BooksByCategoriesAdapter(booksList, this, requireActivity())
         binding.apply {
             booksByCategoriesRv.adapter = booksByCategoriesAdapter
-            categoryNameTv.text = "\" $categoryName \""
-            booksCount.text = "${HomeFragment.booksList.size} book"
+            categoryNameTv.text = getStringRes(categoryName)
+            booksCount.text = "${booksList.size} ${getString(R.string.book)}"
         }
 
         binding.backButton.setOnClickListener {
@@ -46,10 +51,18 @@ class AllBooksFragment : Fragment(), BooksByCategoriesCallBack {
 
     }
 
+    private fun getStringRes(text:String):String{
+        return when(Locale.getDefault().language){
+            "ru" -> "${getString(R.string.all_books_in_the_category)} \"$text\""
+            "uz" -> "\"$text\" ${getString(R.string.all_books_in_the_category)}"
+            else -> "${getString(R.string.all_books_in_the_category)} \"$text\""
+        }
+    }
+
     override fun booksByCategoriesItemClickListener(position: Int) {
         findNavController().navigate(
             R.id.action_allBooksFragment_to_bookDetailsFragment, bundleOf(
-                "currentBook" to HomeFragment.booksList[position]
+                "currentBook" to booksList[position]
             )
         )
     }

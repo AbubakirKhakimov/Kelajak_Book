@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -25,15 +26,9 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
     lateinit var newBooksAdapter: NewBooksAdapter
 
     var isNew = true
-
-    companion object {
-        var dataIsEmpty = true
-        var booksList: ArrayList<Book> = ArrayList()
-        var newBooksList: ArrayList<Book> = ArrayList()
-        var categoriesList: ArrayList<String> = ArrayList()
-
-        var categoryPosition = 0
-    }
+    var booksList: ArrayList<Book> = ArrayList()
+    var newBooksList: ArrayList<Book> = ArrayList()
+    var categoriesList: ArrayList<String> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,11 +37,6 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        categoryPosition = categoriesAdapter.selectedItemPosition
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +52,8 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
 
         binding.showAllBooks.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_allBooksFragment, bundleOf(
-                "categoryName" to categoriesList[categoriesAdapter.selectedItemPosition]
+                "categoryName" to categoriesList[categoriesAdapter.selectedItemPosition],
+                "booksList" to booksList
             ))
         }
 
@@ -73,20 +64,15 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
             isNew = false
 
             categoriesAdapter = CategoriesAdapter(requireActivity(), categoriesList, this)
-            categoriesAdapter.selectedItemPosition = categoryPosition
-            booksByCategoriesAdapter = BooksByCategoriesAdapter(booksList, this)
-            newBooksAdapter = NewBooksAdapter(newBooksList, this)
+            booksByCategoriesAdapter = BooksByCategoriesAdapter(booksList, this, requireActivity())
+            newBooksAdapter = NewBooksAdapter(newBooksList, this, requireActivity())
             initRecycler()
 
-            if (dataIsEmpty) {
-                dataIsEmpty = false
-                binding.swipeRefresh.isRefreshing = true
-                loading()
-
-                loadNewBooks()
-                loadCategories()
-                loadAllBooks()
-            }
+            binding.swipeRefresh.isRefreshing = true
+            loading()
+            loadNewBooks()
+            loadCategories()
+            loadAllBooks()
         } else {
             initRecycler()
         }
@@ -123,7 +109,7 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -136,7 +122,7 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
                 for (item in snapshot.children) {
                     categoriesList.add(item.value.toString())
                 }
-                categoriesList.add(0, "Barchasi")
+                categoriesList.add(0, getString(R.string.category_all))
 
                 categoriesAdapter.selectedItemPosition = 0
                 categoriesAdapter.notifyDataSetChanged()
@@ -149,7 +135,7 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -180,7 +166,7 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -203,7 +189,7 @@ class HomeFragment : Fragment(), CategoriesCallBack, NewBooksCallBack, BooksByCa
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
             }
         })
     }

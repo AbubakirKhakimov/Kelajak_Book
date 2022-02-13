@@ -10,15 +10,16 @@ import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.adapters.ReviewsAdapter
 import com.x.a_technologies.kelajak_book.databinding.FragmentAllReviewsBinding
 import com.x.a_technologies.kelajak_book.models.Review
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AllReviewsFragment : Fragment() {
 
     lateinit var binding: FragmentAllReviewsBinding
     lateinit var reviewsAdapter: ReviewsAdapter
+
     lateinit var bookName:String
-    companion object {
-        var reviewsList:ArrayList<Review>? = null
-    }
+    var reviewsList = ArrayList<Review>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,11 +34,12 @@ class AllReviewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         bookName = arguments?.getString("bookName")!!
+        reviewsList = arguments?.getParcelableArrayList("reviewsList")!!
 
-        binding.bookName.text = "Reviews of \" ${bookName} \""
-        binding.reviewsCount.text = "${reviewsList!!.size} reviews"
+        binding.bookName.text = getStringRes(bookName)
+        binding.reviewsCount.text = "${reviewsList!!.size} ${getString(R.string.reviews)}"
 
-        reviewsAdapter = ReviewsAdapter(reviewsList!!, true)
+        reviewsAdapter = ReviewsAdapter(reviewsList, true)
         binding.allReviewsRv.adapter = reviewsAdapter
 
         binding.backButton.setOnClickListener {
@@ -46,9 +48,12 @@ class AllReviewsFragment : Fragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        reviewsList = null
+    private fun getStringRes(text:String):String{
+        return when(Locale.getDefault().language){
+            "ru" -> "${getString(R.string.all_reviews_of)} \"$text\""
+            "uz" -> "\"$text\" ${getString(R.string.all_reviews_of)}"
+            else -> "${getString(R.string.all_reviews_of)} \"$text\""
+        }
     }
 
 }

@@ -1,7 +1,6 @@
 package com.x.a_technologies.kelajak_book.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +39,7 @@ class BookDetailsFragment : Fragment() {
     lateinit var reviewsAdapter: ReviewsAdapter
     lateinit var currentBook:Book
     var reviewsList = ArrayList<Review>()
-    var bookmarkList = ArrayList<Book>()
+    var bookmarkList = ArrayList<String>()
 
     var isNew = true
     var isSaved = false
@@ -73,7 +72,7 @@ class BookDetailsFragment : Fragment() {
         
         binding.sendReview.setOnClickListener { 
             if (UserInfo.currentUser == null){
-                Toast.makeText(requireActivity(), "You must register to leave a review.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), getString(R.string.you_must_register_to_leave_a_review), Toast.LENGTH_SHORT).show()
                 AuthorizationNumberFragment.fromInfoFragment = false
                 findTopNavController().navigate(R.id.authorizationNumberFragment)
             }else{
@@ -82,9 +81,9 @@ class BookDetailsFragment : Fragment() {
         }
 
         binding.reviewsCount.setOnClickListener {
-            AllReviewsFragment.reviewsList = reviewsList
             findNavController().navigate(R.id.action_bookDetailsFragment_to_allReviewsFragment, bundleOf(
-                "bookName" to currentBook.name
+                "bookName" to currentBook.name,
+                "reviewsList" to reviewsList
             ))
         }
 
@@ -92,11 +91,11 @@ class BookDetailsFragment : Fragment() {
             isSaved = !isSaved
             if (isSaved) {
                 binding.saveToBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
-                bookmarkList.add(0, currentBook)
+                bookmarkList.add(0, currentBook.bookId)
             }
             else {
                 binding.saveToBookmark.setImageResource(R.drawable.ic_bookmark)
-                bookmarkList.remove(currentBook)
+                bookmarkList.remove(currentBook.bookId)
             }
         }
 
@@ -139,8 +138,8 @@ class BookDetailsFragment : Fragment() {
             bookAlphabet.text = currentBook.alphabetType
             bookCoatingType.text = currentBook.coatingType
             bookManufacturingCompany.text = currentBook.manufacturingCompany
-            bookRentPrice.text = currentBook.rentPrice
-            bookSellingPrice.text = currentBook.sellingPrice
+            bookRentPrice.text = "${currentBook.rentPrice} ${getString(R.string.sum)}"
+            bookSellingPrice.text = "${currentBook.sellingPrice} ${getString(R.string.sum)}"
             bookMoreInfo.text = currentBook.moreInformation
             reviewsCountManager()
 
@@ -182,7 +181,7 @@ class BookDetailsFragment : Fragment() {
                 reviewsAdapter.notifyDataSetChanged()
                 binding.noReviewsTitle.visibility = View.GONE
             }else{
-                Toast.makeText(requireActivity(), "Error!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
             }
             isLoading(false)
         }
@@ -215,6 +214,7 @@ class BookDetailsFragment : Fragment() {
                 binding.reviewsProgressBar.visibility = View.GONE
             }
             override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                 binding.reviewsProgressBar.visibility = View.GONE
                 binding.noReviewsTitle.visibility = View.VISIBLE
             }
@@ -226,7 +226,7 @@ class BookDetailsFragment : Fragment() {
             binding.reviewsCount.visibility = View.GONE
         }else{
             binding.reviewsCount.visibility = View.VISIBLE
-            binding.reviewsCount.text = "All ${reviewsList.size} reviews"
+            binding.reviewsCount.text = "${getString(R.string.all)} ${reviewsList.size} ${getString(R.string.all_reviews)}"
         }
     }
     
@@ -266,8 +266,8 @@ class BookDetailsFragment : Fragment() {
 
     private fun checkSavedBookmark(){
         Thread{
-            for (item in bookmarkList){
-                if (currentBook.bookId == item.bookId){
+            for (id in bookmarkList){
+                if (currentBook.bookId == id){
                     requireActivity().runOnUiThread {
                         binding.saveToBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
                         isSaved = true

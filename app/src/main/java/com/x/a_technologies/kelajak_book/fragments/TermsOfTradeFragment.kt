@@ -49,7 +49,7 @@ class TermsOfTradeFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireActivity(), "Error!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                 binding.progressBar.visibility = View.GONE
             }
         })

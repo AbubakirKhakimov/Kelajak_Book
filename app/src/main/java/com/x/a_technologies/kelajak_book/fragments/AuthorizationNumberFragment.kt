@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
@@ -62,7 +63,7 @@ class AuthorizationNumberFragment : Fragment() {
             val number = binding.number.text.toString()
             
             if (countryCode.isEmpty() || number.isEmpty()){
-                Toast.makeText(requireActivity(), "Please enter your phone number!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), getString(R.string.please_enter_your_phone_number), Toast.LENGTH_SHORT).show()
             }else {
                 Hawk.put("isFirstRun", false)
 
@@ -106,7 +107,7 @@ class AuthorizationNumberFragment : Fragment() {
                 if (task.isSuccessful) {
                     checkUserDatabase()
                 } else {
-                    Toast.makeText(requireActivity(), "Error!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                     loading(false)
                 }
             }
@@ -126,15 +127,21 @@ class AuthorizationNumberFragment : Fragment() {
                         }else {
                             findNavController().popBackStack()
                         }
+                        showSnackBar(getString(R.string.you_have_successfully_sign_in_system))
                     }
 
                     loading(false)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                     loading(false)
                 }
             })
+    }
+
+    fun showSnackBar(text:String){
+        Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun codeSend(verificationId: String) {
@@ -148,7 +155,7 @@ class AuthorizationNumberFragment : Fragment() {
     }
 
     private fun verificationFailed() {
-        Toast.makeText(requireActivity(), "Please enter a valid phone number!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireActivity(), getString(R.string.please_enter_a_valid_phone_number), Toast.LENGTH_SHORT).show()
         loading(false)
     }
 

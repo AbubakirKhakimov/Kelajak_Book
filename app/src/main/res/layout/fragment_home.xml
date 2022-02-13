@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Home"
+            android:text="@string/home"
             android:textColor="@color/main_color"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -39,26 +39,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/searchBook_edt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/search_edit_text_backgraund"
-                    android:drawableStart="@drawable/ic_outline_search"
-                    android:drawablePadding="8dp"
-                    android:focusable="false"
-                    android:hint="Search books"
-                    android:padding="16dp" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
-                    android:text="Newest"
+                    android:text="@string/newest"
                     android:textColor="@color/main_color"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -110,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
-                    android:text="Categories"
+                    android:text="@string/categories"
                     android:textColor="@color/main_color"
                     android:textSize="20sp"
                     android:textStyle="bold" />
