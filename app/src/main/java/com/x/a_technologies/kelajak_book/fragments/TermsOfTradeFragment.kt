@@ -11,12 +11,16 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.x.a_technologies.kelajak_book.R
+import com.x.a_technologies.kelajak_book.adapters.TermsOfTradeAdapter
 import com.x.a_technologies.kelajak_book.databinding.FragmentTermsOfTradeBinding
 import com.x.a_technologies.kelajak_book.datas.DatabaseRef
+import com.x.a_technologies.kelajak_book.models.TermsOfTrade
 
 class TermsOfTradeFragment : Fragment() {
 
     lateinit var binding: FragmentTermsOfTradeBinding
+    lateinit var termsOfTradeAdapter: TermsOfTradeAdapter
+    var termsList = ArrayList<TermsOfTrade>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +34,8 @@ class TermsOfTradeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        termsOfTradeAdapter = TermsOfTradeAdapter(termsList)
+        binding.termsRv.adapter = termsOfTradeAdapter
         loadTerms()
 
         binding.backButton.setOnClickListener {
@@ -42,9 +48,11 @@ class TermsOfTradeFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
         DatabaseRef.termsOfTradeRef.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.value != null) {
-                    binding.termsText.text = snapshot.value.toString()
+                for (item in snapshot.children){
+                    termsList.add(item.getValue(TermsOfTrade::class.java)!!)
                 }
+
+                termsOfTradeAdapter.notifyDataSetChanged()
                 binding.progressBar.visibility = View.GONE
             }
 

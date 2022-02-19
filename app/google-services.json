@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "337913719164-hil50phs7aea1l4094a8vo4vqirpsnp8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.x.a_technologies.books_controller",
+            "certificate_hash": "94b82c8f9cc76538e5e7472715e94742ae20c77f"
+          }
+        },
+        {
           "client_id": "337913719164-2l3uscl0devhtrv7ess7u9pmp0oj7d27.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -49,6 +57,14 @@
           "android_info": {
             "package_name": "com.x.a_technologies.kelajak_book",
             "certificate_hash": "94b82c8f9cc76538e5e7472715e94742ae20c77f"
+          }
+        },
+        {
+          "client_id": "337913719164-d0ivuuc2e1q1bm5jvjghmacdffh1mgrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.x.a_technologies.kelajak_book",
+            "certificate_hash": "a0ba857ee488766b95ce735eb03076f03659edd8"
           }
         },
         {

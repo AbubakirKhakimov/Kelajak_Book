@@ -5,6 +5,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\PROEKT\\Android Studio\\Keys\\projects_key.jks')
+            storePassword 'Abubakir2213'
+            keyAlias 'key_kelajak_book_by_abubakir'
+            keyPassword 'Abubakir2213'
+        }
+    }
     compileSdk 31
 
     defaultConfig {
@@ -12,7 +20,7 @@ android {
         minSdk 21
         targetSdk 31
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -21,6 +29,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

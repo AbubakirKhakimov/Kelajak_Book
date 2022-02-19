@@ -1,5 +1,10 @@
 package com.x.a_technologies.kelajak_book.fragments
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,13 +23,11 @@ import com.google.firebase.database.ValueEventListener
 import com.orhanobut.hawk.Hawk
 import com.x.a_technologies.kelajak_book.R
 import com.x.a_technologies.kelajak_book.adapters.ReviewsAdapter
+import com.x.a_technologies.kelajak_book.databinding.ContactUsDialogLayoutBinding
 import com.x.a_technologies.kelajak_book.databinding.FragmentBookDetailsBinding
 import com.x.a_technologies.kelajak_book.datas.DatabaseRef
 import com.x.a_technologies.kelajak_book.datas.UserInfo
-import com.x.a_technologies.kelajak_book.models.Book
-import com.x.a_technologies.kelajak_book.models.Keys
-import com.x.a_technologies.kelajak_book.models.Review
-import com.x.a_technologies.kelajak_book.models.UserReviewIds
+import com.x.a_technologies.kelajak_book.models.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -99,6 +102,14 @@ class BookDetailsFragment : Fragment() {
             }
         }
 
+        binding.contactUs.setOnClickListener {
+            showContactUsDialog()
+        }
+
+        binding.info.setOnClickListener {
+            findTopNavController().navigate(R.id.termsOfTradeFragment)
+        }
+
     }
 
     override fun onStop() {
@@ -149,6 +160,45 @@ class BookDetailsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showContactUsDialog(){
+        var socialMedia = SocialMediaReferences()
+        val customDialog = AlertDialog.Builder(requireActivity()).create()
+        customDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val dialogBinding = ContactUsDialogLayoutBinding.inflate(layoutInflater)
+        customDialog.setView(dialogBinding.root)
+
+        dialogBinding.progressBar.visibility = View.VISIBLE
+        dialogBinding.constraintLayout.visibility = View.GONE
+        DatabaseRef.socialMediaRef.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                socialMedia = snapshot.getValue(SocialMediaReferences::class.java)!!
+                dialogBinding.progressBar.visibility = View.GONE
+                dialogBinding.constraintLayout.visibility = View.VISIBLE
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        dialogBinding.phoneNumber.setOnClickListener {
+            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${socialMedia.phoneNumber}"))
+            startActivity(callIntent)
+        }
+
+        dialogBinding.telegram.setOnClickListener {
+            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(socialMedia.telegramUrl))
+            startActivity(callUrlIntent)
+        }
+
+        dialogBinding.instagram.setOnClickListener {
+            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(socialMedia.instagramUrl))
+            startActivity(callUrlIntent)
+        }
+
+        customDialog.show()
     }
     
     private fun sendReview(){

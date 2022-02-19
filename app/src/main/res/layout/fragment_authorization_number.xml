@@ -46,6 +46,7 @@
                     android:id="@+id/phoneIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:src="@drawable/ic_blue_phone" />
 
@@ -55,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
-                    android:gravity="center"
                     android:text="@string/enter_your_phone_number"
                     android:textColor="@color/black"
                     android:textSize="20sp"

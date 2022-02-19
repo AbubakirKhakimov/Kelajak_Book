@@ -47,6 +47,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="16dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_lock_flat" />
 
                 <TextView
@@ -55,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
-                    android:gravity="center"
                     android:text="@string/enter_the_verification_code"
                     android:textColor="@color/black"
                     android:textSize="20sp"

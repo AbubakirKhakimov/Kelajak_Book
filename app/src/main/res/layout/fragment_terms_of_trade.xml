@@ -47,14 +47,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"/>
 
-            <TextView
-                android:id="@+id/termsText"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/terms_rv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/terms_of_trade_item_layout"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"/>
 
         </FrameLayout>
 
