@@ -163,7 +163,7 @@ class BookDetailsFragment : Fragment() {
     }
 
     private fun showContactUsDialog(){
-        var socialMedia = SocialMediaReferences()
+        var socialMedia:SocialMediaReferences? = null
         val customDialog = AlertDialog.Builder(requireActivity()).create()
         customDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val dialogBinding = ContactUsDialogLayoutBinding.inflate(layoutInflater)
@@ -173,7 +173,12 @@ class BookDetailsFragment : Fragment() {
         dialogBinding.constraintLayout.visibility = View.GONE
         DatabaseRef.socialMediaRef.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                socialMedia = snapshot.getValue(SocialMediaReferences::class.java)!!
+                socialMedia = snapshot.getValue(SocialMediaReferences::class.java)
+
+                if (socialMedia == null){
+                    Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
+                    customDialog.dismiss()
+                }
                 dialogBinding.progressBar.visibility = View.GONE
                 dialogBinding.constraintLayout.visibility = View.VISIBLE
             }
@@ -184,17 +189,17 @@ class BookDetailsFragment : Fragment() {
         })
 
         dialogBinding.phoneNumber.setOnClickListener {
-            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${socialMedia.phoneNumber}"))
+            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${socialMedia!!.phoneNumber}"))
             startActivity(callIntent)
         }
 
         dialogBinding.telegram.setOnClickListener {
-            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(socialMedia.telegramUrl))
+            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(socialMedia!!.telegramUrl))
             startActivity(callUrlIntent)
         }
 
         dialogBinding.instagram.setOnClickListener {
-            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(socialMedia.instagramUrl))
+            val callUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(socialMedia!!.instagramUrl))
             startActivity(callUrlIntent)
         }
 

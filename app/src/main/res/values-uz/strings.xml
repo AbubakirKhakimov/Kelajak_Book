@@ -11,10 +11,10 @@
     <string name="newest">Eng yangilar</string>
     <string name="categories">Kategoriyalar</string>
     <string name="about_the_program">Dastur haqida</string>
-    <string name="version_1_0">Versiya 1.0.1</string>
+    <string name="version">Versiya 1.0.2</string>
     <string name="available">Mavjud</string>
     <string name="rent_price">Ijara narxi</string>
-    <string name="selling_price">Sotish narxi</string>
+    <string name="selling_price">Sotuv narxi</string>
     <string name="contact_us">Biz bilan bog\'lanish</string>
     <string name="authorization">Avtorizatsiya</string>
     <string name="enter_your_phone_number">Telefon raqamingizni kiriting</string>
@@ -29,7 +29,7 @@
     <string name="about_book">Kitob haqida</string>
     <string name="book_reviews">Kitob haqida fikrlar</string>
     <string name="no_reviews">Hozircha fikrlar yoʻq</string>
-    <string name="review_here">Fikringizni yozing...</string>
+    <string name="review_here">Fikringizni yozing…</string>
     <string name="bookmark">Bookmark</string>
     <string name="edit_profile">Profilni tahrirlash</string>
     <string name="first_name">Ism (shart)</string>

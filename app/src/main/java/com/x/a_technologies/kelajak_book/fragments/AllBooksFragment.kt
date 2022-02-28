@@ -38,7 +38,7 @@ class AllBooksFragment : Fragment(), BooksByCategoriesCallBack {
         categoryName = arguments?.getString("categoryName")!!
         booksList = arguments?.getParcelableArrayList("booksList")!!
 
-        booksByCategoriesAdapter = BooksByCategoriesAdapter(booksList, this, requireActivity())
+        booksByCategoriesAdapter = BooksByCategoriesAdapter(booksList, this, requireActivity(), true)
         binding.apply {
             booksByCategoriesRv.adapter = booksByCategoriesAdapter
             categoryNameTv.text = getStringRes(categoryName)

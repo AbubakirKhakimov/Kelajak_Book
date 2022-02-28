@@ -26,6 +26,7 @@ import com.x.a_technologies.kelajak_book.databinding.FragmentAuthorizationNumber
 import com.x.a_technologies.kelajak_book.datas.DatabaseRef
 import com.x.a_technologies.kelajak_book.datas.UserInfo
 import com.x.a_technologies.kelajak_book.models.User
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class AuthorizationNumberFragment : Fragment() {
@@ -77,6 +78,7 @@ class AuthorizationNumberFragment : Fragment() {
     }
 
     private fun sendSms(){
+        Firebase.auth.useAppLanguage()
         val options = PhoneAuthOptions.newBuilder(Firebase.auth)
             .setPhoneNumber(phoneNumber)       // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -166,7 +168,9 @@ class AuthorizationNumberFragment : Fragment() {
             binding.progressBar.visibility = View.VISIBLE
         }else{
             binding.nextButton.visibility = View.VISIBLE
-            binding.skip.visibility = View.VISIBLE
+            if (fromInfoFragment) {
+                binding.skip.visibility = View.VISIBLE
+            }
             binding.progressBar.visibility = View.GONE
         }
     }

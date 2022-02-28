@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "337913719164-meijmbrugf17nnrej3i3voe6felb0cfh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.x.a_technologies.books_controller",
+            "certificate_hash": "7115d45deca2addb18a218c7b494e144097fb8bd"
+          }
+        },
+        {
           "client_id": "337913719164-2l3uscl0devhtrv7ess7u9pmp0oj7d27.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -57,6 +65,14 @@
           "android_info": {
             "package_name": "com.x.a_technologies.kelajak_book",
             "certificate_hash": "94b82c8f9cc76538e5e7472715e94742ae20c77f"
+          }
+        },
+        {
+          "client_id": "337913719164-cq7pap1gijhvlaf9b4lnnmrs7v2fc0as.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.x.a_technologies.kelajak_book",
+            "certificate_hash": "050f2d38d49260e52c6edda8298e0ea0165134de"
           }
         },
         {

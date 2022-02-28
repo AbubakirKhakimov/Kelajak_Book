@@ -17,7 +17,7 @@ interface BooksByCategoriesCallBack{
     fun booksByCategoriesItemClickListener(position: Int)
 }
 
-class BooksByCategoriesAdapter(val booksList:ArrayList<Book>, val booksByCategoriesCallBack: BooksByCategoriesCallBack, val context:Context)
+class BooksByCategoriesAdapter(val booksList:ArrayList<Book>, val booksByCategoriesCallBack: BooksByCategoriesCallBack, val context:Context, val isFullList:Boolean = false)
     : RecyclerView.Adapter<BooksByCategoriesAdapter.ItemHolder>() {
     inner class ItemHolder(val binding: BooksByCategoriesItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -43,7 +43,7 @@ class BooksByCategoriesAdapter(val booksList:ArrayList<Book>, val booksByCategor
     }
 
     override fun getItemCount(): Int {
-        return if(booksList.size <= 20){
+        return if(isFullList || booksList.size <= 20){
             booksList.size
         }else{
             20
