@@ -1,7 +1,6 @@
 package com.x.a_technologies.kelajak_book.fragments
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.PhoneAuthCredential
@@ -21,13 +21,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.x.a_technologies.kelajak_book.R
-import com.x.a_technologies.kelajak_book.activities.MainActivity
 import com.x.a_technologies.kelajak_book.databinding.FragmentVerificationCodeBinding
 import com.x.a_technologies.kelajak_book.datas.DatabaseRef
 import com.x.a_technologies.kelajak_book.datas.UserInfo
 import com.x.a_technologies.kelajak_book.models.User
 
-class VerificationCodeFragment : Fragment() {
+class VerificationCodeFragment : Fragment(), VerificationCompleted {
 
     lateinit var binding: FragmentVerificationCodeBinding
     lateinit var phoneNumber:String
@@ -42,6 +41,11 @@ class VerificationCodeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AuthorizationNumberFragment.verificationCompleted = this
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,12 +55,18 @@ class VerificationCodeFragment : Fragment() {
         listeners()
     }
 
+    override fun verificationCompletedListener(credential: PhoneAuthCredential) {
+        signInWithPhoneAuthCredential(credential)
+    }
+
     private fun verification(){
         val credential = PhoneAuthProvider.getCredential(verificationId, getCode())
         signInWithPhoneAuthCredential(credential)
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        loading(true)
+
         Firebase.auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
@@ -102,6 +112,7 @@ class VerificationCodeFragment : Fragment() {
 
     private fun loading(bool: Boolean) {
         if (bool){
+            closeKeyboard()
             binding.progressBar.visibility = View.VISIBLE
         }else{
             binding.progressBar.visibility = View.GONE
@@ -133,13 +144,14 @@ class VerificationCodeFragment : Fragment() {
             getEditText(position).clearFocus()
             getEditText(position+1).requestFocus()
         } else if (position == 5){
-            val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(getEditText(5).windowToken, 0)
             getEditText(5).clearFocus()
-
-            loading(true)
             verification()
         }
+    }
+
+    private fun closeKeyboard(){
+        val inputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(getEditText(5).windowToken, 0)
     }
 
     private fun listeners(){

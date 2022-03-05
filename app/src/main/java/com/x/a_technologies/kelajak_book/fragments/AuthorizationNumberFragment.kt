@@ -1,33 +1,29 @@
 package com.x.a_technologies.kelajak_book.fragments
 
-import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.orhanobut.hawk.Hawk
 import com.x.a_technologies.kelajak_book.R
-import com.x.a_technologies.kelajak_book.activities.MainActivity
 import com.x.a_technologies.kelajak_book.databinding.FragmentAuthorizationNumberBinding
-import com.x.a_technologies.kelajak_book.datas.DatabaseRef
-import com.x.a_technologies.kelajak_book.datas.UserInfo
-import com.x.a_technologies.kelajak_book.models.User
-import java.util.*
 import java.util.concurrent.TimeUnit
+
+interface VerificationCompleted{
+    fun verificationCompletedListener(credential: PhoneAuthCredential)
+}
 
 class AuthorizationNumberFragment : Fragment() {
 
@@ -35,6 +31,7 @@ class AuthorizationNumberFragment : Fragment() {
     lateinit var phoneNumber:String
     companion object {
         var fromInfoFragment = true
+        var verificationCompleted:VerificationCompleted? = null
     }
 
     override fun onCreateView(
@@ -86,7 +83,9 @@ class AuthorizationNumberFragment : Fragment() {
             .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
 
                 override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    signInWithPhoneAuthCredential(credential)
+                    if (verificationCompleted != null) {
+                        verificationCompleted!!.verificationCompletedListener(credential)
+                    }
                 }
 
                 override fun onVerificationFailed(p0: FirebaseException) {
@@ -101,49 +100,6 @@ class AuthorizationNumberFragment : Fragment() {
             }).build()
 
         PhoneAuthProvider.verifyPhoneNumber(options)
-    }
-
-    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        Firebase.auth.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    checkUserDatabase()
-                } else {
-                    Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
-                    loading(false)
-                }
-            }
-    }
-
-    private fun checkUserDatabase(){
-        DatabaseRef.usersRef.child(Firebase.auth.currentUser!!.phoneNumber!!)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.value == null){
-                        findNavController().navigate(R.id.action_authorizationNumberFragment_to_getUserInfoFragment)
-                    }else{
-                        UserInfo.currentUser = snapshot.getValue(User::class.java)
-
-                        if (fromInfoFragment){
-                            findNavController().navigate(R.id.action_authorizationNumberFragment_to_tabsFragment)
-                        }else {
-                            findNavController().popBackStack()
-                        }
-                        showSnackBar(getString(R.string.you_have_successfully_sign_in_system))
-                    }
-
-                    loading(false)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show()
-                    loading(false)
-                }
-            })
-    }
-
-    fun showSnackBar(text:String){
-        Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun codeSend(verificationId: String) {
@@ -161,7 +117,7 @@ class AuthorizationNumberFragment : Fragment() {
         loading(false)
     }
 
-    fun loading(bool:Boolean){
+    private fun loading(bool:Boolean){
         if (bool){
             binding.nextButton.visibility = View.GONE
             binding.skip.visibility = View.GONE

@@ -37,8 +37,8 @@ class GetUserInfoFragment : Fragment() {
         phoneNumber = Firebase.auth.currentUser!!.phoneNumber!!
         
         binding.nextButton.setOnClickListener { 
-            val firstName = binding.firstName.text.toString()
-            val lastName = binding.lastName.text.toString()
+            val firstName = binding.firstName.text.toString().trim()
+            val lastName = binding.lastName.text.toString().trim()
             
             if (firstName.isEmpty()){
                 Toast.makeText(requireActivity(), getString(R.string.please_write_your_first_name), Toast.LENGTH_SHORT).show()
