@@ -1,2 +1,2 @@
 # Kelajak_Book
-sdafdasssssssssssssssssssssss
+Progress with science, and science with a book
